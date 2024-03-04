@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignId('establishment_id')->nullable()->constrained('establishments')->onDelete('cascade')->onUpdate('cascade');
+            $table->enum('status' , ['pending', 'accepted', 'banned'])->default('accepted');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

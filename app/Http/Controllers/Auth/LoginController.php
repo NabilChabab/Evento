@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -41,17 +41,21 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
+        $role = $user->roles->first();
 
-        $roleId = $user->roles()->pluck('role_id')->first();
-
-        if ($roleId == 1) {
-            return redirect('/admin/dashboard');
-        } elseif ($roleId == 2) {
-            return redirect('/home')->with('status' , 'Welcome Back Lets find a Job');
-        } elseif ($roleId == 3) {
-            return redirect('/spectator/home');
-        }else {
-            return redirect($this->redirectTo);
+        if ($role) {
+            switch ($role->name) {
+                case 'admin':
+                    return redirect('/admin/dashboard');
+                case 'organizer':
+                    return redirect('/organizer/account');
+                case 'spectator':
+                    return redirect('user/home')->with('status', "Welcome Back find a Tickets!");
+                default:
+                    return redirect($this->redirectTo);
+            }
+        } else {
+            return redirect($this->redirectTo)->with('status', 'Your account does not have role assigned. Please contact administrator.');
         }
     }
 }

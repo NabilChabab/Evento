@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'establishment_id'
     ];
 
     /**
@@ -45,5 +47,20 @@ class User extends Authenticatable
 
     public function roles(){
         return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($role)
+    {
+
+        return $this->roles->where('name', $role);
+    }
+
+    public function establishment(){
+        return $this->belongsTo(Establishment::class);
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'reservations')->withTimestamps();
     }
 }
