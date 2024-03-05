@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class PermissionRoleSeeder extends Seeder
@@ -15,23 +15,12 @@ class PermissionRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissions = [
-            'view_users' => ['admin', 'organizer'], // Both admin and organizer
-            'banned_users' => ['admin'], // Only admin
-            'refuse_events' => ['admin'], // Only admin
-            'manage_events' => ['organizer'], // Only organizer
-            'manage_categories' => ['admin'], // Only admin
-            'make_reservations' => ['spectator'], // Only spectator
-            'organizer_statistics' => ['organizer'], // Only organizer
-            'admin_statistics' => ['admin'], // Only admin
-        ];
+        $admin_permissions =  [1,2,3,5,8];
+        $organizer_permissions =  [1,4,7];
+        $user_permissions =  [8];
 
-        foreach ($permissions as $permissionName => $roles) {
-            $permission = Permission::create([
-                'name' => $permissionName,
-            ]);
-
-            $permission->roles->attach($roles);
-        }
+        Role::where('name','admin')->firstOrFail()->permissions()->sync($admin_permissions);
+        Role::where('name','organizer')->firstOrFail()->permissions()->sync($organizer_permissions);
+        Role::where('name','spectator')->firstOrFail()->permissions()->sync($user_permissions);
     }
 }

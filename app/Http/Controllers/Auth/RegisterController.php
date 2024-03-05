@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\OrganizerRegistered;
 use App\Models\Establishment;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -125,9 +127,9 @@ class RegisterController extends Controller
         ]);
 
         $user->roles()->attach(3);
+        Mail::to($user->email)->send(new OrganizerRegistered($user));
 
-
-        return redirect('login')->with('status' , 'Your account has been created successfully!');
+        return redirect('login')->with('status' , 'Your account has been created successfully! An email has been sent to you with some details.');
 
 
     }

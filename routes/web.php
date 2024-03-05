@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\EventController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\organizer\OrganizerController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\spectator\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Auth;
@@ -36,15 +37,20 @@ Route::post('organizer' , [RegisterController::class , 'organizer'])->name('orga
 Route::post('register' , [RegisterController::class , 'register'])->name('register.post');
 
 
+Route::get('profile' , [ProfileController::class , 'profile'])->name('admin.profile');
+Route::put('user-update', [ProfileController::class, 'updateProfile'])->name('user.update');
 
-Route::prefix('admin')->middleware(['auth' , 'role:admin'])->group(function(){
+
+
+Route::prefix('evento')->middleware(['auth' , 'role:admin'])->group(function(){
     Route::resource('dashboard' , AdminController::class);
     Route::resource('categories' , CategoryController::class);
+    Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.update-status');
     Route::resource('users' , UserController::class);
     Route::resource('events' , EventController::class);
 });
 
-Route::prefix('organizer')->middleware(['auth' , 'role:organizer'])->group(function(){
+Route::prefix('evento-org')->middleware(['auth' , 'role:organizer'])->group(function(){
     Route::resource('account' , OrganizerController::class);
 
 });

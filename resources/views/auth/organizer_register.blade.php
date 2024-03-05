@@ -28,31 +28,31 @@
                     <form action="{{ route('organizer.post') }}" method="POST" id="form">
                         @csrf
                         <div class="form-outline mb-4">
-                            <input type="text" id="fullname" class="form-control" placeholder="Full Name" name="name" />
+                            <input type="text" id="fullname" class="form-control bg-light p-2 text-dark" placeholder="Full Name" name="name" />
                             <p id="fullname-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
-                            <input type="email" id="email" class="form-control" placeholder="Email" name="email" />
+                            <input type="email" id="email" class="form-control bg-light p-2 text-dark" placeholder="Email" name="email" />
                             <p id="email-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
-                            <input type="password" id="password" class="form-control" placeholder="Password" name="password" />
+                            <input type="password" id="password" class="form-control bg-light p-2 text-dark" placeholder="Password" name="password" />
                             <p id="password-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
-                            <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" name="password_confirmation" />
+                            <input type="password" id="confirm_password" class="form-control bg-light p-2 text-dark" placeholder="Confirm Password" name="password_confirmation" />
                             <p id="confirm_password-error" class="form-error text-danger"></p>
                         </div>
                         <div class="form-outline mb-4">
-                            <input type="text" id="establishment" class="form-control" placeholder="Establishment" name="establishment" />
+                            <input type="text" id="establishment" class="form-control bg-light p-2 text-dark" placeholder="Establishment" name="establishment" />
                             <p id="establishment-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
-                            <textarea type="text" id="desciption" class="form-control" placeholder="Description" name="description"></textarea>
+                            <textarea type="text" id="desciption" class="form-control bg-light p-2 text-dark" placeholder="Description" name="description"></textarea>
                             <p id="desciption-error" class="form-error text-danger"></p>
                         </div>
 

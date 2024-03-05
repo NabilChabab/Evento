@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="{{asset('user/css/styles.css')}}">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
-
 <style>
     .bg-glass {
         background-color: hsla(0, 94%, 26%, 0.267) !important;
@@ -85,6 +84,58 @@
 
     }
 
+    .cards {
+         width: 100%;
+         border: none;
+         background-color: transparent;
+         border: none;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column
+     }
+
+     .cards img {
+         width: 200px;
+         height: 200px;
+         border-radius: 50%;
+         object-fit: cover;
+     }
+
+     .cards label {
+         margin-top: 30px;
+         text-align: center;
+         height: 40px;
+         cursor: pointer;
+         font-weight: bold;
+         font-size: 20px;
+         margin-bottom: 10px;
+
+     }
+
+     .cards input {
+         display: none;
+     }
+
+     .table-responsive{
+         width: 100%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+     }
+
+     .form-outline input{
+         background-color: rgb(37, 37, 37);
+         border: none;
+         width: 100%;
+         padding: 15px;
+         margin-top: 30px;
+         color: rgb(187, 187, 187);
+
+     }
+
+
 </style>
 
 <body>
@@ -92,7 +143,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top" style="background-color: transparent">
         <div class="container-fluid d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center  me-auto me-lg-0">
+            <a href="/" class="logo d-flex align-items-center  me-auto me-lg-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <div class="logo">E v e n t o</div>
             </a>
@@ -114,8 +165,15 @@
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a href=""><img src="{{ asset('assets/img/profile-img.jpg') }}" alt=""
-                                srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;"></a>
+                        <a href="{{route('admin.profile')}}">
+                            @if (Auth::user()->hasMedia('media/users'))
+                            <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt=""
+                            srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
+                            @else
+                            <img src="{{ asset('images/avatar.jfif')}}" alt=""
+                            srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
+                            @endif
+                        </a>
                         <a id="navbarDropdown" class="nav-link" href="#" role="button">
                             {{ Auth::user()->name }}
                         </a>
@@ -173,6 +231,7 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{asset('js/form.js')}}"></script>
 
 
     @if (session('status'))

@@ -46,9 +46,9 @@ class LoginController extends Controller
         if ($role) {
             switch ($role->name) {
                 case 'admin':
-                    return redirect('/admin/dashboard');
+                    return redirect('/evento/dashboard');
                 case 'organizer':
-                    return redirect('/organizer/account');
+                    return redirect('/evento-org/account');
                 case 'spectator':
                     return redirect('user/home')->with('status', "Welcome Back find a Tickets!");
                 default:

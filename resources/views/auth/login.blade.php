@@ -30,12 +30,12 @@
 
 
                         <div class="form-outline mb-4">
-                            <input type="email" id="email" class="form-control" placeholder="Email" name="email" />
+                            <input type="email" id="email" class="form-control p-2 bg-light text-dark" placeholder="Email" name="email" />
                             <p id="email-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
-                            <input type="password" id="password" class="form-control" placeholder="Password" name="password" />
+                            <input type="password" id="password" class="form-control p-2 bg-light text-dark" placeholder="Password" name="password" />
                             <p id="password-error" class="form-error text-danger"></p>
                         </div>
                         @if (Route::has('password.request'))
