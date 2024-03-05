@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\EventController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\organizer\EventsController;
 use App\Http\Controllers\organizer\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\spectator\HomeController;
@@ -52,6 +53,7 @@ Route::prefix('evento')->middleware(['auth' , 'role:admin'])->group(function(){
 
 Route::prefix('evento-org')->middleware(['auth' , 'role:organizer'])->group(function(){
     Route::resource('account' , OrganizerController::class);
+    Route::resource('event' , EventsController::class);
 
 });
 

@@ -135,6 +135,16 @@
 
      }
 
+     .form-outline select{
+         background-color: rgb(37, 37, 37);
+         border: none;
+         width: 100%;
+         padding: 15px;
+         margin-top: 30px;
+         color: rgb(187, 187, 187);
+
+     }
+
 
 </style>
 

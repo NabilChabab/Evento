@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- 
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
     <title>
         Dashboard
     </title>
@@ -18,90 +19,76 @@
     <link href="{{ asset('css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+    <style>
+        .cards {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column
+        }
 
+        .cards img {
+            width: 800px;
+            height: 350px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
 
+        .cards label {
+            margin-top: 30px;
+            text-align: center;
+            height: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 5%;
 
+        }
+
+        .cards input {
+            display: none;
+        }
+
+        .table-responsive {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-outline input {
+            background-color: rgb(27, 27, 27);
+            border: none;
+            width: 700px;
+            padding: 15px;
+
+        }
+
+        .form-outline textarea {
+            background-color: rgb(27, 27, 27);
+            border: none;
+            width: 700px;
+            padding: 15px;
+
+        }
+
+        .form-outline select {
+            background-color: rgb(27, 27, 27);
+            border: none;
+            width: 700px;
+            padding: 15px;
+
+        }
+    </style>
 </head>
 
 <body class="g-sidenav-show" style="background-color:#161718;">
     <div class="min-height-300 position-absolute w-100" style="background-color:rgb(112, 1, 1);"></div>
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
-        id="sidenav-main" style="background-color:#161718;">
-        <div class="sidenav-header">
-            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-                aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
-                target="_blank">
-                <span class="ms-1 font-weight-bold">ARTSY COLLABS</span>
-            </a>
-        </div>
-        <hr class="horizontal dark mt-0">
-        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('users.index') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Artists</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="{{ route('projects.index') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Projects</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-app text-info text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Partners</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " href="{{ route('userproject.index') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-app text-info text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Artist With Projects</span>
-                    </a>
-                </li>
-
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="../pages/profile.html">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Profile</span>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-      
-    </aside>
     <main class="main-content position-relative border-radius-lg ">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
@@ -110,10 +97,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white"
-                                href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                                href="{{ route('event.index') }}">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Events</li>
                     </ol>
-                    <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+                    <h6 class="font-weight-bolder text-white mb-0">Create Events</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -127,8 +114,7 @@
                         <li class="nav-item d-flex align-items-center">
                             <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0">
 
-                                <img src="{{ Auth::user()->getFirstMediaUrl('images') }}" alt=""
-                                    srcset=""
+                                <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt="" srcset=""
                                     style="width: 40px;height:40px;border-radius:50%;margin-right:10px;">
                                 <span class="d-sm-inline d-none">Logout</span>
                             </a>
@@ -239,97 +225,119 @@
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mb-4" style="background-color:#161718;">
-                        <div class="card-header pb-0 d-flex justify-content-between align-items-center"
-                            style="background-color:#161718;">
-                            <h6>Partners table</h6>
-                            <a class="btn btn-primary" href="{{ route('partners.create') }}">Create new</a>
-                        </div>
-                        <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Logo</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Description</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Craeted_at</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Actions</th>
-                                            <th class="text-secondary opacity-7"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($partners as $partner)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="{{ $partner->getFirstMediaUrl('images') }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm text-light"> {{ $partner->name }}
-                                                            </h6>
-                                                            <p class="text-xs text-secondary mb-0">
-                                                                {{ $partner->name }}@gmail.com</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    @php
-                                                        $desc = str_word_count($partner->description) > 10 ? \Illuminate\Support\Str::limit($partner->description, 70) : $partner->description;
-                                                    @endphp
-                                                    <p class="text-xs font-weight-bold mb-0">{{ $desc }}</p>
+                    <form action="{{ route('event.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card mb-4" style="background-color:#161718;">
+                            <div class="card-header pb-0 d-flex justify-content-between align-items-center"
+                                style="background-color:#161718;">
+                                <h6>Create New Event</h6>
+                                <button type="submit" class="btn btn-primary" >Publish</button>
+                            </div>
+                            <div class="card-body px-0 pt-0 pb-2">
+                                <div class="table-responsive p-0">
+                                    <div class="cards">
+                                        <img src="https://www.bootdey.com/image/800x350/FFFFF/000000" id="image">
+                                        <label for="input-file">Choose Image</label>
+                                        @error('cover')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                        <input type="file" accept="image/jpg, image/png, image/jpeg"
+                                            name="cover" style="background-color: transparent;" id="input-file">
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="">Title</label>
+                                        <input type="text" id="fullname" class="form-control"
+                                            placeholder="Title" name="title" />
+                                        @error('title')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="">Description</label>
+                                        <textarea type="text" id="email" class="form-control" placeholder="Description" name="description"></textarea>
+                                        @error('description')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                                </td>
+                                    <div class="form-outline mb-4">
+                                      <label for="">Price</label>
+                                      <input type="number" id="fullname" class="form-control"
+                                          placeholder="Price" name="price" />
+                                      @error('price')
+                                          <p class="fname-error text-danger">{{ $message }}</p>
+                                      @enderror
+                                    </div>
 
-                                                <td class="align-middle text-center">
-                                                    <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $partner->created_at }}</span>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="d-flex align-items-center justify-content-center gap-5">
-                                                        <a href="javascript:;"
-                                                            class="font-weight-bold text-xs text-primary"
-                                                            data-toggle="tooltip" data-original-title="Edit user">
-                                                            Edit
-                                                        </a>
-                                                        <form action="{{route('partners.destroy' , $partner->id)}}" method="POST">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            <button 
-                                                        class="text-danger font-weight-bold text-xs assign-project-button"
-                                                        style="background-color: transparent;border:none;" type="submit">
-                                                        Delete
-                                                    </button>
-                                                        </form>
-                                                        <button id="assignProjectButton"
-                                                            data-partner-id="{{ $partner->id }}"
-                                                            class="text-success font-weight-bold text-xs assign-project-button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#assignProjectModal" data-toggle="tooltip"
-                                                            data-original-title="Assign a project"
-                                                            style="background-color: transparent;border:none;">
-                                                            Assign a project
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                    <div class="form-outline mb-4">
+                                        <label for="">Total Seats</label>
+                                        <input type="number" id="fullname" class="form-control"
+                                            placeholder="Total Seats" name="total-seats" />
+                                        @error('total-seats')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                      </div>
 
-                                    </tbody>
-                                </table>
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Date</label>
+                                        <input type="datetime-local" class="form-control" placeholder="Date"
+                                            name="date" />
+                                        @error('date')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Location</label>
+                                        <input type="text" id="fullname" class="form-control"
+                                            placeholder="Title" name="location" />
+                                        @error('location')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Category</label>
+                                        <select type="date" class="form-control" placeholder="End_date"
+                                            name="category">
+                                            <option selected>Select a Category</option>
+                                            @foreach ($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('end_date')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-4 d-flex flex-column">
+                                        <label for="autostatus" class="mb-3">You want this Event Acceptation</label>
+                                        <div class="d-flex gap-5">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="autostatus" id="automatic" value="automatic">
+                                                <label class="form-check-label" for="automatic">
+                                                    Automatic
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="autostatus" id="manual" value="manual">
+                                                <label class="form-check-label" for="manual">
+                                                    Manual
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @error('autostatus')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <footer class="footer pt-3  ">
@@ -371,48 +379,6 @@
                 </div>
             </footer>
         </div>
-        <div class="modal fade" id="assignProjectModal" tabindex="-1" aria-labelledby="assignProjectModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" style="bottom: 10%;">
-                <div class="modal-content" style="background-color:#161718">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="assignProjectModalLabel">Assign a Project</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        @foreach ($projects as $project)
-                            <div class="">
-                                <form method="POST" action="{{ route('projects.update', ['project' => $project->id]) }}" class="d-flex justify-content-between align-items-center p-2">
-                                    @csrf
-                                    @method('PUT')
-                                    <div>
-                                        <input type="hidden" name="partner_id" value="{{ $partnerId }}">
-                                        <img src="{{ $project->getFirstMediaUrl('images') }}" alt="" class="img-fluid rounded" style="width: 70px; height: 50px;object-fit:center;">
-                                    </div>
-                                    @if (!$partnerId || !$project->partner_id)
-                                        <button type="submit" class="btn text-primary" style="background-color: transparent;border:none;">Assign</button>
-                                    @else
-                                        <button type="button" class="btn font-weight-bold text-danger"  style="background-color: transparent;border:none;" disabled>Assigned</button>
-                                    @endif
-                                </form>
-                                <div class="modal-footer"></div>
-                            </div>
-                        @endforeach
-                    </div>
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Your existing HTML code -->
-
     </main>
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -504,21 +470,11 @@
         </div>
     </div>
     <!--   Core JS Files   -->
-    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-    <script>
-        // Function to handle when the modal is shown
-        $('#assignProjectModal').on('show.bs.modal', function(event) {
-            // Get the button that triggered the modal
-            var button = $(event.relatedTarget);
-            // Extract partner_id from data attribute
-            var partner_id = button.data('partner-id');
-            // Update the hidden input field in the form with the partner_id
-            $('#partner_id').val(partner_id);
-        });
-    </script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -532,80 +488,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var myModal = new bootstrap.Modal(document.getElementById('assignProjectModal'), {});
-            document.getElementById('assignProjectButton').addEventListener('click', function() {
-                myModal.show();
-            });
-        });
-    </script>
-
-
-    @if (session('status'))
-        <script>
-            setTimeout(function() {
-                Swal.fire({
-                    title: 'Success',
-                    text: '{{ session('status') }}',
-                    icon: 'success',
-                    background: '#161718',
-                    confirmButtonClass: 'btn btn-success',
-                    confirmButtonText: 'Cancel',
-                    confirmButtonColor: 'rgb(112, 1, 1)',
-                });
-            }, {{ session('delay', 0) }});
-        </script>
-    @endif
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for form submission
-            document.getElementById('assignProjectForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                console.log("Form submitted"); // Check if this message appears in the console
-
-                // Get the selected project_id
-                var projectId = document.querySelector('input[name="project_id"]:checked').value;
-
-                // Get the partner_id from the hidden input field
-                var partnerId = document.getElementById('partner_id').value;
-
-                console.log("Selected Project ID:",
-                    projectId); // Check if the selected project ID is logged
-                console.log("Partner ID:", partnerId); // Check if the partner ID is logged
-
-                // Update the action URL with the selected project ID
-                this.action = "{{ route('projects.update', ['project' => ':project']) }}".replace(
-                    ':project', projectId);
-
-                console.log("Action URL:", this.action); // Check if the action URL is correctly updated
-
-                // Submit the form
-                this.submit();
-            });
-
-            // Modal initialization code...
-        });
-    </script> --}}
-
-    <script>
-        $(document).ready(function() {
-            $('.assign-project-button').click(function() {
-                var partnerId = $(this).data('partner-id');
-                $('#assignProjectModal').find('input[name="partner_id"]').val(partnerId);
-            });
-        });
-    </script>
-
 </body>
 
 </html>

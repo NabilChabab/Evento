@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Event extends Model
+class Event extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory , InteractsWithMedia;
 
 
 
@@ -20,7 +22,7 @@ class Event extends Model
         'total_seats',
         'reserved_seats',
         'price',
-        'user_id',
+        'createdBy',
         'category_id',
         'event_status',
         'automatic_accept'
