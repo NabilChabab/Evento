@@ -56,6 +56,7 @@
                         <span class="nav-link-text ms-1">Evento Users</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link @yield('Events-active')" href="{{route('events.index')}}">
                         <div
@@ -312,6 +313,18 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
+<script>
+    $(document).ready(function() {
+        $('#updateCategory').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var catId = button.data('cat_id');
+            var catName = button.data('cat_name');
+            var modal = $(this);
+            modal.find('#cat_id').val(catId);
+            modal.find('#cat').val(catName);
+        });
+    });
+</script>
 
 <script>
     $('#statusModal').on('show.bs.modal', function(event) {

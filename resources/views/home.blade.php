@@ -48,6 +48,7 @@
 @endsection
 @section('content')
 <section id="gallery" class="gallery">
+
     <div class="container-fluid">
 
         <div class="row gy-4 justify-content-center">

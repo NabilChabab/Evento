@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MollieController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\EventController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\spectator\HomeController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +65,7 @@ Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function ()
     Route::get('reservation/{id}' , [HomeController::class , 'checkout'])->name('checkout-booking');
     Route::post('reservation' , [HomeController::class , 'makeReservation'])->name('reservation.store');
 });
+
+
+Route::get('mollie-payment',[MollieController::class,'preparePayment'])->name('mollie.payment');
+Route::get('payment-success',[MollieController::class, 'paymentSuccess'])->name('payment.success');

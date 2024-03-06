@@ -102,7 +102,7 @@
                         <li><strong>Event date</strong> <span>{{$event->date}}</span></li>
                         <li><strong>Event Location</strong> <a href="#">{{$event->location}}</a></li>
                         <li>
-                            <a href="{{route('checkout-booking' , $event->id)}}" class="btn-visit align-self-start" type="submit" style="border:none;">Get Your Ticket</a>
+                            <a href="{{route('mollie.payment')}}" class="btn-visit align-self-start" type="submit" style="border:none;">Get Your Ticket</a>
                             {{-- <form action="{{route('reservation.store')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="event_id" value="{{$event->id}}">
