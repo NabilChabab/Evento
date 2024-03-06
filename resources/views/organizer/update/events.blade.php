@@ -76,6 +76,14 @@
             padding: 15px;
 
         }
+
+        .form-outline select {
+            background-color: rgb(27, 27, 27);
+            border: none;
+            width: 700px;
+            padding: 15px;
+
+        }
     </style>
 </head>
 
@@ -89,10 +97,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white"
-                                href="{{ route('projects.index') }}">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Projects</li>
+                                href="{{ route('event.index') }}">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Events</li>
                     </ol>
-                    <h6 class="font-weight-bolder text-white mb-0">Create Projects</h6>
+                    <h6 class="font-weight-bolder text-white mb-0">Create Events</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -106,7 +114,7 @@
                         <li class="nav-item d-flex align-items-center">
                             <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0">
 
-                                <img src="{{ Auth::user()->getFirstMediaUrl('images') }}" alt="" srcset=""
+                                <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt="" srcset=""
                                     style="width: 40px;height:40px;border-radius:50%;margin-right:10px;">
                                 <span class="d-sm-inline d-none">Logout</span>
                             </a>
@@ -217,18 +225,19 @@
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
-                    <form action="{{ route('Profile.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('event.update', $event->id) }}" method="POST" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="card mb-4" style="background-color:#161718;">
                             <div class="card-header pb-0 d-flex justify-content-between align-items-center"
                                 style="background-color:#161718;">
-                                <h6>Create New Project</h6>
-                                <button type="submit" class="btn btn-primary" >Publish</button>
+                                <h6>Create New Event</h6>
+                                <button type="submit" class="btn btn-primary" >Save changes</button>
                             </div>
                             <div class="card-body px-0 pt-0 pb-2">
                                 <div class="table-responsive p-0">
                                     <div class="cards">
-                                        <img src="https://www.bootdey.com/image/800x350/FFFFF/000000" id="image">
+                                        <img src="{{$event->getFirstMediaUrl('media/events')}}" id="image">
                                         <label for="input-file">Choose Image</label>
                                         @error('cover')
                                             <p class="fname-error text-danger">{{ $message }}</p>
@@ -239,46 +248,94 @@
                                     <div class="form-outline mb-4">
                                         <label for="">Title</label>
                                         <input type="text" id="fullname" class="form-control"
-                                            placeholder="Title" name="title" />
+                                            placeholder="Title" name="title" value="{{$event->title}}"/>
                                         @error('title')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
-
-                                    <div class="form-outline mb-4">
-                                      <label for="">Budget</label>
-                                      <input type="number" id="fullname" class="form-control"
-                                          placeholder="Budget" name="budget" />
-                                      @error('budget')
-                                          <p class="fname-error text-danger">{{ $message }}</p>
-                                      @enderror
-                                  </div>
-
                                     <div class="form-outline mb-4">
                                         <label for="">Description</label>
-                                        <textarea type="text" id="email" class="form-control" placeholder="Description" name="description"></textarea>
+                                        <textarea type="text" id="email" class="form-control" placeholder="Description" name="description">{{$event->description}}</textarea>
                                         @error('description')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label for="">Start Date</label>
-                                        <input type="date" class="form-control" placeholder="Start_date"
-                                            name="start_date" />
-                                        @error('start_date')
+                                      <label for="">Price</label>
+                                      <input type="number" id="fullname" class="form-control"
+                                          placeholder="Price" name="price" value="{{$event->price}}"/>
+                                      @error('price')
+                                          <p class="fname-error text-danger">{{ $message }}</p>
+                                      @enderror
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Total Seats</label>
+                                        <input type="number" id="fullname" class="form-control"
+                                            placeholder="Total Seats" name="total-seats" value="{{$event->total_seats}}"/>
+                                        @error('total-seats')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                      </div>
+
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Date</label>
+                                        <input type="datetime-local" class="form-control" placeholder="Date"
+                                            name="date" value="{{$event->date}}"/>
+                                        @error('date')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+
+
+                                    <div class="form-outline mb-4">
+                                        <label for="">Location</label>
+                                        <input type="text" id="fullname" class="form-control"
+                                            placeholder="Title" name="location" value="{{$event->location}}"/>
+                                        @error('location')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label for="">End Date</label>
-                                        <input type="date" class="form-control" placeholder="End_date"
-                                            name="end_date" />
+                                        <label for="">Category</label>
+                                        <select type="date" class="form-control" placeholder="End_date"
+                                            name="category">
+                                            <option selected>{{$event->category->name}}</option>
+                                            @foreach ($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
                                         @error('end_date')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
+
+                                    <div class="mb-4 d-flex flex-column">
+                                        <label for="autostatus" class="mb-3">You want this Event Acceptation</label>
+                                        <div class="d-flex gap-5">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="autostatus" id="automatic" value="automatic"{{ $event->automatic_accept === 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="automatic">
+                                                    Automatic
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="autostatus" id="manual" value="manual"{{ $event->automatic_accept === 0 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="manual">
+                                                    Manual
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @error('autostatus')
+                                            <p class="fname-error text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+
 
 
                                 </div>

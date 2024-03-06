@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\spectator;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -12,8 +14,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $events = Event::where('event_status', 'accepted')->get();
+        return view('home', compact('events'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,9 +31,32 @@ class HomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function makeReservation(Request $request)
     {
-        //
+        $request->validate([
+            'event_id' => 'required|integer|exists:events,id',
+        ]);
+
+        $eventId = $request->event_id;
+        $userId = Auth::id();
+
+        $event = Event::findOrFail($eventId);
+        if($event->automatic_accept === 1){
+
+            $event->users()->attach($userId,[
+                'status' => 'accepted'
+            ]);
+        }
+        else{
+            $event->users()->attach($userId,[
+              'status' =>'pending'
+            ]);
+        }
+
+        $event->increment('reserved_seats');
+        $event->save();
+
+        return redirect()->back()->with('status','Reservation created successfully');
     }
 
     /**
@@ -36,7 +64,8 @@ class HomeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        return view('details', compact('event'));
     }
 
     /**

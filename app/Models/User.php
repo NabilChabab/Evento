@@ -65,4 +65,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(Event::class, 'reservations')->withTimestamps();
     }
+
+
+    public function event(){
+        return $this->hasOne(Event::class);
+    }
 }

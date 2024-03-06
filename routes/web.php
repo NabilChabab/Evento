@@ -9,7 +9,7 @@ use App\Http\Controllers\organizer\EventsController;
 use App\Http\Controllers\organizer\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\spectator\HomeController;
-use App\Http\Controllers\StripePaymentController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,40 +25,41 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $events = Event::where('event_status', 'accepted')->get();
+    return view('home', compact('events'));
 });
 
 Auth::routes();
-Route::get('authentication' , function(){
+Route::get('authentication', function () {
     return view('authentication');
 })->name('authentication');
 
-Route::get('organizer_auth' , [RegisterController::class , 'organizer_auth'])->name('organizer_auth');
-Route::post('organizer' , [RegisterController::class , 'organizer'])->name('organizer.post');
-Route::post('register' , [RegisterController::class , 'register'])->name('register.post');
+Route::get('organizer_auth', [RegisterController::class, 'organizer_auth'])->name('organizer_auth');
+Route::post('organizer', [RegisterController::class, 'organizer'])->name('organizer.post');
+Route::post('register', [RegisterController::class, 'register'])->name('register.post');
 
 
-Route::get('profile' , [ProfileController::class , 'profile'])->name('admin.profile');
+Route::get('profile', [ProfileController::class, 'profile'])->name('admin.profile');
 Route::put('user-update', [ProfileController::class, 'updateProfile'])->name('user.update');
 
 
 
-Route::prefix('evento')->middleware(['auth' , 'role:admin'])->group(function(){
-    Route::resource('dashboard' , AdminController::class);
-    Route::resource('categories' , CategoryController::class);
+Route::prefix('evento')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('dashboard', AdminController::class);
+    Route::resource('categories', CategoryController::class);
     Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.update-status');
-    Route::resource('users' , UserController::class);
-    Route::resource('events' , EventController::class);
+    Route::resource('users', UserController::class);
+    Route::put('/events/{id}/update-status', [EventController::class, 'updateEventsStatus'])->name('events.update-status');
+    Route::resource('events', EventController::class);
 });
 
-Route::prefix('evento-org')->middleware(['auth' , 'role:organizer'])->group(function(){
-    Route::resource('account' , OrganizerController::class);
-    Route::resource('event' , EventsController::class);
-
+Route::prefix('evento-org')->middleware(['auth', 'role:organizer'])->group(function () {
+    Route::resource('account', OrganizerController::class);
+    Route::resource('event', EventsController::class);
 });
 
-Route::prefix('user')->middleware(['auth' , 'role:spectator'])->group(function(){
-    Route::resource('home' , HomeController::class);
-
-
+Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function () {
+    Route::resource('home', HomeController::class);
+    Route::get('reservation/{id}' , [HomeController::class , 'checkout'])->name('checkout-booking');
+    Route::post('reservation' , [HomeController::class , 'makeReservation'])->name('reservation.store');
 });

@@ -288,6 +288,8 @@
                                         @enderror
                                     </div>
 
+
+
                                     <div class="form-outline mb-4">
                                         <label for="">Location</label>
                                         <input type="text" id="fullname" class="form-control"

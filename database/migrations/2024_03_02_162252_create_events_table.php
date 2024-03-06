@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('total_seats');
             $table->integer('reserved_seats')->default(0);
             $table->double('price');
-            $table->foreignId('createdBy')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('createdBy')->constrained('users')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('event_status' , ['pending', 'accepted', 'refused'])->default('pending');
             $table->boolean('automatic_accept')->default(false);

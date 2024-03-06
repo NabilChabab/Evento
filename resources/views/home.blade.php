@@ -52,14 +52,17 @@
 
         <div class="row gy-4 justify-content-center">
 
+            @foreach ($events as $event)
             <div class="col-xl-3 col-lg-4 col-md-6">
+
                 <div class="gallery-item h-100">
-                    <img src="{{asset('assets/img/gallery/gallery-10.jpg')}}" class="img-fluid" alt="" style="width: 500px;height:350px;object-fit:cover;">
+                    <img src="{{$event->getFirstMediaUrl('media/events')}}" class="img-fluid" alt="" style="width: 500px;height:350px;object-fit:cover;">
                     <div class="gallery-links d-flex align-items-center justify-content-center">
-                        <a href="#" class="details-link"><i class="bi bi-eye"></i></a>
-                        </div>
+                        <a href="{{route('home.show' , $event->id)}}" class="details-link"><i class="bi bi-eye"></i></a>
                     </div>
-                </div><!-- End Gallery Item -->
+                </div>
+            </div><!-- End Gallery Item -->
+            @endforeach
 
 
         </div>

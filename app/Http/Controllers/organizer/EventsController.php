@@ -4,6 +4,7 @@ namespace App\Http\Controllers\organizer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Models\Category;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('organizer.events');
+        $userId = Auth::id();
+        $events = Event::where('createdBy', $userId)->get();
+        return view('organizer.events', compact('events'));
     }
 
     /**
@@ -25,7 +28,7 @@ class EventsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('organizer.create.events' , compact('categories'));
+        return view('organizer.create.events', compact('categories'));
     }
 
     /**
@@ -41,13 +44,12 @@ class EventsController extends Controller
             'total_seats' => $request->input('total-seats'),
             'date' => $request->date,
             'category_id' => $request->category,
-            'event_status' => $request->autostatus === 'automatic' ? 'accepted' : 'pending',
+            'automatic_accept' => $request->autostatus === 'automatic' ? 1 : 0,
             'createdBy' => Auth::id()
         ]);
-        $event->addMediaFromRequest('cover')->toMediaCollection('media/events' , 'media_events');
-
+        $event->addMediaFromRequest('cover')->toMediaCollection('media/events', 'media_events');
         $event->save();
-        return redirect()->back()->with('status', 'Event created successfully.');
+        return redirect('evento-org/event')->with('status', 'Event created successfully.');
     }
 
     /**
@@ -63,15 +65,35 @@ class EventsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $categories = Category::all();
+        return view('organizer.update.events', compact('event', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateEventRequest $request, string $id)
     {
-        //
+
+        $event = Event::findOrFail($id);
+        $event->title = $request->title;
+        $event->location = $request->location;
+        $event->description = $request->description;
+        $event->price = $request->price;
+        $event->total_seats = $request->input('total-seats');
+        $event->date = $request->date;
+        $event->category_id = $request->category;
+        $event->automatic_accept = $request->autostatus === 'automatic' ? 1 : 0;
+
+        if ($request->hasFile('cover')) {
+            if ($event->getFirstMedia('media_events')) {
+                $event->clearMediaCollection('media_events');
+            }
+            $event->addMediaFromRequest('cover')->toMediaCollection('media/events', 'media_events');
+        }
+        $event->save();
+        return redirect('evento-org/event')->with('status', 'Event updated successfully.');
     }
 
     /**
@@ -79,6 +101,8 @@ class EventsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $event->delete();
+        return redirect('evento-org/event')->with('status', 'Event deleted successfully.');
     }
 }

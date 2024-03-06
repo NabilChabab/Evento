@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @yield('Events-active')" href="">
+                    <a class="nav-link @yield('Events-active')" href="{{route('events.index')}}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -312,6 +312,15 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
+
+<script>
+    $('#statusModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var eventId = button.data('event_id');
+        var modal = $(this);
+        modal.find('#event_id').val(eventId);
+    });
+</script>
 
 <script>
     $('#statusModal').on('show.bs.modal', function(event) {
