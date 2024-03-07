@@ -4,8 +4,11 @@ namespace App\Http\Controllers\spectator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class HomeController extends Controller
 {
@@ -32,32 +35,35 @@ class HomeController extends Controller
      * Store a newly created resource in storage.
      */
     public function makeReservation(Request $request)
-    {
-        $request->validate([
-            'event_id' => 'required|integer|exists:events,id',
-        ]);
+{
+    $request->validate([
+        'event_id' => 'required|integer|exists:events,id',
+    ]);
 
-        $eventId = $request->event_id;
-        $userId = Auth::id();
+    $eventId = $request->event_id;
+    $userId = Auth::id();
 
-        $event = Event::findOrFail($eventId);
-        if($event->automatic_accept === 1){
+    $event = Event::findOrFail($eventId);
+    $user = Auth::user();
 
-            $event->users()->attach($userId,[
-                'status' => 'accepted'
-            ]);
-        }
-        else{
-            $event->users()->attach($userId,[
-              'status' =>'pending'
-            ]);
-        }
+    // Create reservation
+    $reservation = Reservation::create([
+        'user_id' => $userId,
+        'event_id' => $eventId,
+        'status' => $event->automatic_accept ? 'accepted' : 'pending',
+    ]);
 
-        $event->increment('reserved_seats');
-        $event->save();
+    // Increment reserved seats
+    $event->increment('reserved_seats');
+    $event->save();
 
-        return redirect()->back()->with('status','Reservation created successfully');
-    }
+    // Generate PDF ticket
+    $pdf = PDF::loadView('pdf.ticket', compact('user', 'event'));
+
+
+    // Download the PDF ticket
+    return $pdf->download('ticket.pdf');
+}
 
     /**
      * Display the specified resource.

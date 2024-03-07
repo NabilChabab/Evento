@@ -102,11 +102,12 @@
                         <li><strong>Event date</strong> <span>{{$event->date}}</span></li>
                         <li><strong>Event Location</strong> <a href="#">{{$event->location}}</a></li>
                         <li>
-                            <a href="{{route('mollie.payment')}}" class="btn-visit align-self-start" type="submit" style="border:none;">Get Your Ticket</a>
-                            {{-- <form action="{{route('reservation.store')}}" method="POST">
-                                @csrf
+                            {{-- <a href="{{route('mollie.payment')}}" class="btn-visit align-self-start" type="submit" style="border:none;">Get Your Ticket</a> --}}
+                            <form action="/session" method="POST">
                                 <input type="hidden" name="event_id" value="{{$event->id}}">
-                            </form> --}}
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <button class="btn-visit align-self-start" type="submit" style="border:none;">Get Your Ticket</button>
+                            </form>
                         </li>
 
                     </ul>

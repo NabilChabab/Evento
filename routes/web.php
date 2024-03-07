@@ -56,6 +56,7 @@ Route::prefix('evento')->middleware(['auth', 'role:admin'])->group(function () {
 });
 
 Route::prefix('evento-org')->middleware(['auth', 'role:organizer'])->group(function () {
+    Route::get('booking' , [OrganizerController::class , 'booking'])->name('booking.index');
     Route::resource('account', OrganizerController::class);
     Route::resource('event', EventsController::class);
 });
@@ -67,5 +68,5 @@ Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function ()
 });
 
 
-Route::get('mollie-payment',[MollieController::class,'preparePayment'])->name('mollie.payment');
-Route::get('payment-success',[MollieController::class, 'paymentSuccess'])->name('payment.success');
+Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');

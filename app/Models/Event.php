@@ -36,7 +36,7 @@ class Event extends Model implements HasMedia
 
 
     public function users(){
-        return $this->belongsToMany(User::class , 'reservations')->withTimestamps();
+        return $this->belongsToMany(User::class , 'reservations')->withPivot('status')->withTimestamps();
     }
 
     public function creater(){
