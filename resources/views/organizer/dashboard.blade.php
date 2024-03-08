@@ -5,5 +5,4 @@
 
 @section('recent-cards')
 
-
 @endsection

@@ -19,24 +19,28 @@ class TicketEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public $user;
-    public $event;
-    public $pdf;
 
-    public function __construct(?User $user = null)
-    {
-        $this->user = $user;
+
     
-    }
 
-    public function build($user, $event, $pdf)
+    /**
+     * Create a new message instance.
+     *
+     * @param string $pdfContent
+     * @param string $userName
+     * @param string $eventName
+     */
+    public function __construct()
 {
-    return $this->from('noreply@yourdomain.com')
-                ->to($user->email, $user->name)
-                ->subject('Your Ticket for ' . $event->title)
-                ->attachData($pdf->output(), 'ticket.pdf', ['mime' => 'application/pdf'])
-                ->view('emails.ticket', compact('user', 'event'));
+   
 }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+
     /**
      * Get the message envelope.
      */

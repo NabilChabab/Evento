@@ -28,7 +28,7 @@ class StoreEventRequest extends FormRequest
             'description' => 'required|string',
             'price' => 'required|numeric',
             'total-seats' => 'required|numeric',
-            'date' => 'required|date',
+            'date' => 'required|date|after:today',
             'category' => 'required|exists:categories,id',
             'autostatus' => 'required|in:automatic,manual',
         ];

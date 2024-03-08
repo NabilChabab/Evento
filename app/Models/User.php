@@ -70,4 +70,9 @@ class User extends Authenticatable implements HasMedia
     public function event(){
         return $this->hasOne(Event::class);
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

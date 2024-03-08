@@ -30,6 +30,8 @@
   scroll-behavior: smooth;
 }
 
+
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -720,7 +722,7 @@ h6 {
 # Pricing Section
 --------------------------------------------------------------*/
 .gallery {
-  margin-top: 40px;
+  padding:3%  6%;
 }
 
 .gallery .gallery-item {
@@ -959,10 +961,26 @@ h6 {
 .services .service-item {
   padding: 50px 30px;
   transition: all ease-in-out 0.4s;
-  background: var(--color-secondary);
+  background-image: url('../img/gallery/img1.jfif');
   height: 100%;
   overflow: hidden;
   z-index: 1;
+}
+
+.services .item1{
+    background-image: url('../img/gallery/img1.jfif');
+}
+
+.services .item2{
+    background-image: url('../img/gallery/img2.jfif');
+}
+
+.services .item3{
+    background-image: url('../img/gallery/img3.jfif');
+}
+
+.services .item4{
+    background-image: url('../img/gallery/energy-manifest\ —\ khn.jfif');
 }
 
 .services .service-item:before {
@@ -1005,7 +1023,7 @@ h6 {
 }
 
 .services .service-item:hover:before {
-  background: var(--color-primary);
+  background: rgba(112, 1, 1, 0.651);
   right: 0;
   top: 0;
   width: 100%;

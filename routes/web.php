@@ -27,9 +27,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $events = Event::where('event_status', 'accepted')->get();
+    $events = Event::where('event_status', 'accepted')->latest()->take(4)->get();
     return view('home', compact('events'));
 });
+
+
 
 Auth::routes();
 Route::get('authentication', function () {
@@ -59,12 +61,13 @@ Route::prefix('evento-org')->middleware(['auth', 'role:organizer'])->group(funct
     Route::get('booking' , [OrganizerController::class , 'booking'])->name('booking.index');
     Route::resource('account', OrganizerController::class);
     Route::resource('event', EventsController::class);
+    Route::put('/updateStatus/{user}/{event}', [OrganizerController::class, 'updateStatus'])->name('updateStatus');
 });
 
 Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function () {
     Route::resource('home', HomeController::class);
-    Route::get('reservation/{id}' , [HomeController::class , 'checkout'])->name('checkout-booking');
-    Route::post('reservation' , [HomeController::class , 'makeReservation'])->name('reservation.store');
+    Route::get('events', [HomeController::class , 'allEvents']);
+    Route::get('ticket/{id}' , [HomeController::class , 'ticket'])->name('ticket');
 });
 
 

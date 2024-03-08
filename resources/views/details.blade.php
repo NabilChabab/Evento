@@ -1,33 +1,31 @@
 @extends('layouts.my_layout')
 @section('nav')
-
-<nav id="navbar" class="navbar">
-    <ul>
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li class="dropdown"><a href="#"><span>Gallery</span> <i
-                    class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-                <li><a href="gallery.html">Nature</a></li>
-                <li><a href="gallery.html">People</a></li>
-                <li><a href="gallery.html">Architecture</a></li>
-                <li><a href="gallery.html">Animals</a></li>
-                <li><a href="gallery.html">Sports</a></li>
-                <li><a href="gallery.html">Travel</a></li>
-                <li class="dropdown"><a href="#"><span>Sub Menu</span> <i
-                            class="bi bi-chevron-down dropdown-indicator"></i></a>
+    <nav id="navbar" class="navbar">
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            @auth
+                <li><a href="events">Events</a></li>
+                <li class="dropdown">
+                    <a href="#"><span>My Tickets</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
-                        <li><a href="#">Sub Menu 1</a></li>
-                        <li><a href="#">Sub Menu 2</a></li>
-                        <li><a href="#">Sub Menu 3</a></li>
-                    </ul>
+                            @if ($reservations->isNotEmpty())
+                            @foreach ($reservations as $reservation)
+                                <li class="d-flex justify-content-between" style="width:300px">
+                                    <a href="{{ route('home.show', $reservation->id) }}"><img src="{{$reservation->getFirstMediaUrl('media/events')}}" style="width: 40px;height:40px;" class="rounded-circle me-2"> {{ $reservation->title }}</a>
+                                    <a href="{{route('ticket' , $reservation->id)}}"><i class="bi bi-arrow-down-circle"  style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
+                                </li>
+                            @endforeach
+                            @else
+                            <li><a>No tickets available!!.</a></li>
+                        @endif
+                        </ul>
                 </li>
-            </ul>
-        </li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
-</nav>
+            @endauth
+            <li><a href="about.html">About</a></li>
+
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 @endsection
 @section('hero_head')
 

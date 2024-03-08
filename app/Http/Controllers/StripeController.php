@@ -17,13 +17,13 @@ class StripeController extends Controller
     public function session(Request $request)
     {
         \Stripe\Stripe::setApiKey(config('stripe.sk'));
-    
+
         // Get the total price for the event
         $event = Event::findOrFail($request->event_id);
         $totalPrice = $event->price;
-    
+
         $unitAmount = max(50, $totalPrice);
-    
+
         $session = \Stripe\Checkout\Session::create([
             'line_items' => [
                 [
@@ -40,10 +40,10 @@ class StripeController extends Controller
             'mode'        => 'payment',
             'success_url' => route('success', ['event_id' => $request->event_id]), // Pass event ID in the success URL
         ]);
-    
+
         return redirect()->to($session->url);
     }
-    
+
 
     public function success(Request $request)
     {
@@ -53,16 +53,20 @@ class StripeController extends Controller
             'event_id' => $request->event_id,
             'status' => $event->automatic_accept ? 'accepted' : 'pending',
         ]);
-    
+
         $event->increment('reserved_seats');
         $event->save();
-    
-        $user = Auth::user(); // This line retrieves the authenticated user
+
+        $user = Auth::user();
+        $data['email'] = $user->email;
+        $data['title'] = $event->title;
         $pdf = PDF::loadView('pdf.ticket', compact('user', 'event'));
-        $pdf->save(storage_path('ticket.pdf')); 
-    
-        Mail::to($user->email)->send(new TicketEmail($user, $event, $pdf));
-    
-        return redirect('user/home')->with('status', 'Booking Tickets Successfully');
+
+        Mail::send('emails.ticket', $data, function($message) use ($data, $pdf) {
+            $message->to($data['email'])
+                ->subject($data['title'])
+                ->attachData($pdf->output() , "ticket.pdf");
+        });
+        return redirect('user/home')->with('status', 'Booking Tickets Successfully!Check Your Email');
     }
 }

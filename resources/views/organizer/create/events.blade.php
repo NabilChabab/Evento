@@ -282,7 +282,7 @@
                                     <div class="form-outline mb-4">
                                         <label for="">Date</label>
                                         <input type="datetime-local" class="form-control" placeholder="Date"
-                                            name="date" />
+                                            name="date"/>
                                         @error('date')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror

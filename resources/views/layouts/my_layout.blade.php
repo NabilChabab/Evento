@@ -27,8 +27,8 @@
     <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('user/css/styles.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('user/css/styles.css') }}">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
@@ -66,14 +66,15 @@
 
     form {
         padding: 20px;
-        font-family: 'Poppins' , sans-serif;
+        font-family: 'Poppins', sans-serif;
     }
 
     form a {
         margin-left: 25%;
         text-decoration: none;
     }
-    body{
+
+    body {
         height: 100vh;
         background-image: url('images/eventobg.jpg');
         width: 100%;
@@ -85,67 +86,89 @@
     }
 
     .cards {
-         width: 100%;
-         border: none;
-         background-color: transparent;
-         border: none;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         flex-direction: column
-     }
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column
+    }
 
-     .cards img {
-         width: 200px;
-         height: 200px;
-         border-radius: 50%;
-         object-fit: cover;
-     }
+    .cards img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 
-     .cards label {
-         margin-top: 30px;
-         text-align: center;
-         height: 40px;
-         cursor: pointer;
-         font-weight: bold;
-         font-size: 20px;
-         margin-bottom: 10px;
+    .cards label {
+        margin-top: 30px;
+        text-align: center;
+        height: 40px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
 
-     }
+    }
 
-     .cards input {
-         display: none;
-     }
+    .cards input {
+        display: none;
+    }
 
-     .table-responsive{
-         width: 100%;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         justify-content: center;
-     }
+    .table-responsive {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-     .form-outline input{
-         background-color: rgb(37, 37, 37);
-         border: none;
-         width: 100%;
-         padding: 15px;
-         margin-top: 30px;
-         color: rgb(187, 187, 187);
+    .form-outline input {
+        background-color: rgb(37, 37, 37);
+        border: none;
+        width: 100%;
+        padding: 15px;
+        margin-top: 30px;
+        color: rgb(187, 187, 187);
 
-     }
+    }
 
-     .form-outline select{
-         background-color: rgb(37, 37, 37);
-         border: none;
-         width: 100%;
-         padding: 15px;
-         margin-top: 30px;
-         color: rgb(187, 187, 187);
+    .form-outline select {
+        background-color: rgb(37, 37, 37);
+        border: none;
+        width: 100%;
+        padding: 15px;
+        margin-top: 30px;
+        color: rgb(187, 187, 187);
 
-     }
+    }
 
+    .pagination {
+                display: flex;
+                justify-content: center;
+                list-style: none;
+                padding: 0;
+            }
 
+            .pagination li {
+                margin: 0 5px;
+            }
+
+            .pagination li a {
+                display: inline-block;
+                background-color: transparent;
+                color: brown;
+                border: none;
+                text-decoration: none;
+            }
+
+            .pagination li .active a {
+                background-color: brown;
+                color: #6d0000;
+            }
 </style>
 
 <body>
@@ -175,13 +198,13 @@
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a href="{{route('admin.profile')}}">
+                        <a href="{{ route('admin.profile') }}">
                             @if (Auth::user()->hasMedia('media/users'))
-                            <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt=""
-                            srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
+                                <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt=""
+                                    srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
                             @else
-                            <img src="{{ asset('images/avatar.jfif')}}" alt=""
-                            srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
+                                <img src="{{ asset('images/avatar.jfif') }}" alt="" srcset=""
+                                    style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
                             @endif
                         </a>
                         <a id="navbarDropdown" class="nav-link" href="#" role="button">
@@ -216,6 +239,7 @@
 
         @yield('content')
 
+
     </main>
 
     <!-- ======= Footer ======= -->
@@ -241,27 +265,26 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script src="{{asset('js/form.js')}}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
 
 
     @if (session('status'))
-    <script>
-        setTimeout(function() {
-            Swal.fire({
-                title: 'Success',
-                text: '{{ session('status') }}',
-                icon: 'success',
-                confirmButtonClass: 'btn btn-success',
-                confirmButtonText: 'Cancel',
-                confirmButtonColor: 'rgb(102, 102, 245)',
-                background:'rgb(24, 24, 24)',
-                customClass: {
-                    popup: 'custom-popup-class'
-                }
-            });
-        }, {{ session('delay', 0) }});
-    </script>
-
+        <script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: 'Success',
+                    text: '{{ session('status') }}',
+                    icon: 'success',
+                    confirmButtonClass: 'btn btn-success',
+                    confirmButtonText: 'Cancel',
+                    confirmButtonColor: 'rgb(102, 102, 245)',
+                    background: 'rgb(24, 24, 24)',
+                    customClass: {
+                        popup: 'custom-popup-class'
+                    }
+                });
+            }, {{ session('delay', 0) }});
+        </script>
     @endif
     <script>
         document.getElementById('form').addEventListener('submit', function(event) {
