@@ -63,7 +63,7 @@ class User extends Authenticatable implements HasMedia
 
     public function events()
     {
-        return $this->belongsToMany(Event::class, 'reservations')->withPivot('status')->withTimestamps();
+        return $this->belongsToMany(Event::class, 'reservations', 'user_id', 'event_id')->withPivot('status')->withTimestamps();
     }
 
 
@@ -74,5 +74,10 @@ class User extends Authenticatable implements HasMedia
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function hasPendingReservation(Event $event)
+    {
+        return $this->events()->where('events.id', $event->id)->wherePivot('status', 'pending')->exists();
     }
 }

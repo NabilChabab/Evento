@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Reservation;
@@ -56,17 +57,24 @@ class StripeController extends Controller
 
         $event->increment('reserved_seats');
         $event->save();
-
         $user = Auth::user();
         $data['email'] = $user->email;
         $data['title'] = $event->title;
-        $pdf = PDF::loadView('pdf.ticket', compact('user', 'event'));
+        if ($event->automatic_accept == 0) {
+            Mail::send('emails.request', $data, function ($message) use ($data) {
+                $message->to($data['email'])
+                    ->subject($data['title']);
+            });
+        } else {
+            $pdf = PDF::loadView('pdf.ticket', compact('user', 'event'));
 
-        Mail::send('emails.ticket', $data, function($message) use ($data, $pdf) {
-            $message->to($data['email'])
-                ->subject($data['title'])
-                ->attachData($pdf->output() , "ticket.pdf");
-        });
+            Mail::send('emails.ticket', $data, function ($message) use ($data, $pdf) {
+                $message->to($data['email'])
+                    ->subject($data['title'])
+                    ->attachData($pdf->output(), "ticket.pdf");
+            });
+        }
+
         return redirect('user/home')->with('status', 'Booking Tickets Successfully!Check Your Email');
     }
 }

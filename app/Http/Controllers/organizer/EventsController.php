@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $userId = Auth::id();
@@ -51,28 +49,12 @@ class EventsController extends Controller
         $event->save();
         return redirect('evento-org/event')->with('status', 'Event created successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $event = Event::findOrFail($id);
         $categories = Category::all();
         return view('organizer.update.events', compact('event', 'categories'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateEventRequest $request, string $id)
     {
 
@@ -95,10 +77,6 @@ class EventsController extends Controller
         $event->save();
         return redirect('evento-org/event')->with('status', 'Event updated successfully.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $event = Event::findOrFail($id);

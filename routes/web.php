@@ -26,28 +26,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $events = Event::where('event_status', 'accepted')->latest()->take(4)->get();
-    return view('home', compact('events'));
-});
+Route::get('/', [HomeController::class , 'index']);
 
 
-
+//Authentication
 Auth::routes();
 Route::get('authentication', function () {
     return view('authentication');
 })->name('authentication');
-
 Route::get('organizer_auth', [RegisterController::class, 'organizer_auth'])->name('organizer_auth');
 Route::post('organizer', [RegisterController::class, 'organizer'])->name('organizer.post');
 Route::post('register', [RegisterController::class, 'register'])->name('register.post');
-
-
 Route::get('profile', [ProfileController::class, 'profile'])->name('admin.profile');
 Route::put('user-update', [ProfileController::class, 'updateProfile'])->name('user.update');
 
 
-
+//Admin
 Route::prefix('evento')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('dashboard', AdminController::class);
     Route::resource('categories', CategoryController::class);
@@ -57,19 +51,29 @@ Route::prefix('evento')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('events', EventController::class);
 });
 
+
+//Organizer
 Route::prefix('evento-org')->middleware(['auth', 'role:organizer'])->group(function () {
+    Route::put('/updateStatus/{reservation}', [OrganizerController::class, 'updateStatus'])->name('updateStatus');
     Route::get('booking' , [OrganizerController::class , 'booking'])->name('booking.index');
     Route::resource('account', OrganizerController::class);
     Route::resource('event', EventsController::class);
-    Route::put('/updateStatus/{user}/{event}', [OrganizerController::class, 'updateStatus'])->name('updateStatus');
 });
 
+
+//Spectator
 Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function () {
     Route::resource('home', HomeController::class);
+    Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('events', [HomeController::class , 'allEvents']);
     Route::get('ticket/{id}' , [HomeController::class , 'ticket'])->name('ticket');
+    Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+    Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
 });
 
 
-Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
-Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
+
+Route::get('ticket' , function(){
+    return view('pdf.ticket');
+});
+

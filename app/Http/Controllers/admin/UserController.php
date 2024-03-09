@@ -33,102 +33,41 @@ class UserController extends Controller
             'spectator_id' => 'required|exists:users,id',
             'status' => 'required|in:pending,accepted,banned',
         ]);
-
-        // Find the user with the provided spectator_id
         $user = User::findOrFail($request->spectator_id);
-
-        // Update the status
         $user->status = $request->status;
-
-        // If the status is being updated to 'accepted'
         if ($request->status === 'accepted') {
-            // Assign the role of organizer
             $role = Role::where('name', 'organizer')->first();
             if ($role) {
                 $user->roles()->sync([$role->id]);
             }
-
-            // Send email notification to the user
             Mail::to($user->email)->send(new RequestAccepted($user));
         }
-
+        else{
+            $role = Role::where('name', 'spectator')->first();
+            if ($role) {
+                $user->roles()->sync([$role->id]);
+            }
+        }
         $user->save();
-
         return redirect()->back()->with('status', 'User status updated successfully.');
     }
 
     public function updateOrganizerStatus(Request $request, string $id)
     {
         $request->validate([
+            'spectator_id' => 'required|exists:users,id',
             'status' => 'required|in:pending,accepted,banned',
         ]);
-
-        $acceptedOrganizers = User::where('status', 'accepted')->whereHas('roles', function ($query) {
-            $query->where('name', 'organizer');
-        })->get();
-
-        foreach ($acceptedOrganizers as $user) {
-            $user->status = 'pending';
+        $user = User::findOrFail($request->spectator_id);
+        $user->status = $request->status;
+        if ($request->status === 'pending') {
             $role = Role::where('name', 'spectator')->first();
             if ($role) {
                 $user->roles()->sync([$role->id]);
             }
-
-            $user->save();
         }
-
-        return redirect()->back()->with('status', 'Pending spectators successfully updated to organizers.');
+        $user->save();
+        return redirect()->back()->with('status', 'User status updated successfully.');
     }
 
-
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

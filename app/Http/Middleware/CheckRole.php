@@ -23,8 +23,6 @@ class CheckRole
             return $next($request);
         }
     }
-
-    // Redirect to login with an error message for unauthorized access
     return redirect('/login')->with('error', 'Unauthorized access');
 }
 }

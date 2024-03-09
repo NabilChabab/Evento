@@ -10,17 +10,21 @@
                 <li class="dropdown">
                     <a href="#"><span>My Tickets</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
-                            @if ($reservations->isNotEmpty())
+                        @if ($reservations->isNotEmpty())
                             @foreach ($reservations as $reservation)
                                 <li class="d-flex justify-content-between" style="width:300px">
-                                    <a href="{{ route('home.show', $reservation->id) }}"><img src="{{$reservation->getFirstMediaUrl('media/events')}}" style="width: 40px;height:40px;" class="rounded-circle me-2"> {{ $reservation->title }}</a>
-                                    <a href="{{route('ticket' , $reservation->id)}}"><i class="bi bi-arrow-down-circle"  style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
+                                    <a href="{{ route('home.show', $reservation->id) }}"><img
+                                            src="{{ $reservation->getFirstMediaUrl('media/events') }}"
+                                            style="width: 40px;height:40px;" class="rounded-circle me-2">
+                                        {{ $reservation->title }}</a>
+                                    <a href="{{ route('ticket', $reservation->id) }}"><i class="bi bi-arrow-down-circle"
+                                            style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
                                 </li>
                             @endforeach
-                            @else
+                        @else
                             <li><a>No tickets available!!.</a></li>
                         @endif
-                        </ul>
+                    </ul>
                 </li>
             @endauth
             <li><a href="about.html">About</a></li>
@@ -31,7 +35,6 @@
 @endsection
 
 @section('hero_head')
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 text-center">
@@ -40,19 +43,23 @@
                     community. </p>
                 <a href="contact.html" class="btn-get-started">Available for hire</a>
                 <h2 class="mt-5"><span>Our Events</span></h2>
+                <input type="search" id="searchInput" placeholder="Search by title or category"
+                    class="form-control mt-5 text-dark p-2"
+                    style="background-color: rgb(236, 236, 236);width:400px;margin-left:20%;">
 
             </div>
         </div>
     </div>
-
 @endsection
 @section('content')
-
     <section id="gallery" class="gallery">
         <div class="container-fluid">
-            <div class="row gy-4 justify-content-center" >
+            <div class="row gy-4 justify-content-center" id="events-list">
+                <!-- Dynamically populate this div with fetched data -->
+            </div>
+            <div class="row gy-4 justify-content-center" id="events-listt">
                 @foreach ($events as $event)
-                    <div class="col-xl-3 col-lg-4 col-md-6" id="events-list">
+                    <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="gallery-item h-100">
                             <img src="{{ $event->getFirstMediaUrl('media/events') }}" class="img-fluid" alt=""
                                 style="width: 500px;height:350px;object-fit:cover;">
@@ -75,8 +82,50 @@
         </div>
     </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            var searchInput = document.getElementById('searchInput');
+
+            var eventsList = document.getElementById('events-list');
+            var eventsList1 = document.getElementById('events-listt');
+
+            searchInput.addEventListener('input', async function() {
+                var query = this.value;
+
+                try {
+                    const response = await fetch(`/user/search?query=${query}`);
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    console.log(data);
+
+                    eventsList1.style.display = 'none';
+                    eventsList.innerHTML = '';
 
 
+                    data.forEach(event => {
+                        const eventCard = `
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="gallery-item h-100">
+                            <img src="${event.media_url}" class="img-fluid" alt="" style="width: 500px;height:350px;object-fit:cover;">
+                            <div class="gallery-links d-flex align-items-center justify-content-center">
+                                <a href="../user/home/${event.id}" class="details-link"><i class="bi bi-eye"></i></a>
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+                        eventsList.insertAdjacentHTML('beforeend', eventCard);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('footer')
