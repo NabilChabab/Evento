@@ -27,35 +27,32 @@
 
                     <form action="{{ route('login') }}" enctype="multipart/form-data" method="POST" id="form">
                         @csrf
-
-
                         <div class="form-outline mb-4">
                             <input type="email" id="email" class="form-control p-2 bg-light text-dark" placeholder="Email" name="email" />
-                            <p id="email-error" class="form-error text-danger"></p>
+                            <p id="email-log-error" class="form-error text-danger"></p>
                         </div>
 
                         <div class="form-outline mb-4">
                             <input type="password" id="password" class="form-control p-2 bg-light text-dark" placeholder="Password" name="password" />
-                            <p id="password-error" class="form-error text-danger"></p>
+                            <p id="password-log-error" class="form-error text-danger"></p>
                         </div>
                         @if (Route::has('password.request'))
                                     <a class="btn text-light text-center mb-3" href="{{ route('password.request') }}" style="text-align:end;width:100%">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif
+                        @endif
 
 
 
                         <button type="submit" class="btn btn-dark btn-block mb-4 col-12 p-2">Login</button>
-                        <a href="{{ route('register') }}" class="mb-4 col-12 register text-light">Dont have an account? <span class="text-primary">Register</span></a>
 
                         <!-- Register buttons -->
-                        <div class="text-center">
-                            <button type="button" class="btn btn-link btn-floating mx-1"><i class='bx bxl-meta'></i></button>
-                            <button type="button" class="btn btn-link btn-floating mx-1"><i class='bx bxl-google'></i></button>
-                            <button type="button" class="btn btn-link btn-floating mx-1"><i class='bx bxl-linkedin'></i></button>
-                            <button type="button" class="btn btn-link btn-floating mx-1"><i class='bx bxl-github'></i></button>
+                        <div class="text-center mb-4">
+                            <a href="" class="btn btn-link btn-floating mx-1"><i class='bx bxl-meta' style="font-size: 20px"></i></a>
+                            <a href="{{ url('auth/google') }}" class="btn btn-link btn-floating mx-1"><i class='bx bxl-google' style="font-size: 20px"></i></a>
+
                         </div>
+                        <a href="{{ route('register') }}" class="col-12 register text-light">Dont have an account? <span class="text-primary">Register</span></a>
                     </form>
                 </div>
             </div>

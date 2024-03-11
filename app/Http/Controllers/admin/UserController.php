@@ -41,8 +41,7 @@ class UserController extends Controller
                 $user->roles()->sync([$role->id]);
             }
             Mail::to($user->email)->send(new RequestAccepted($user));
-        }
-        else{
+        } else {
             $role = Role::where('name', 'spectator')->first();
             if ($role) {
                 $user->roles()->sync([$role->id]);
@@ -69,5 +68,4 @@ class UserController extends Controller
         $user->save();
         return redirect()->back()->with('status', 'User status updated successfully.');
     }
-
 }

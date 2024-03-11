@@ -304,12 +304,12 @@
                                         <label for="">Category</label>
                                         <select type="date" class="form-control" placeholder="End_date"
                                             name="category">
-                                            <option selected>{{$event->category->name}}</option>
+                                            <option value="{{$event->category->id}}" selected>{{$event->category->name}}</option>
                                             @foreach ($categories as $category)
                                             <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
                                         </select>
-                                        @error('end_date')
+                                        @error('category')
                                             <p class="fname-error text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>

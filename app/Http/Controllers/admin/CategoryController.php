@@ -19,13 +19,13 @@ class CategoryController extends Controller
             'name' => $request->category
         ]);
 
-        return redirect()->back()->with('status' , 'Category added Successfully');
+        return redirect()->back()->with('status', 'Category added Successfully');
     }
 
-    public function update(Request $request , string $id)
+    public function update(Request $request, string $id)
     {
         $request->validate([
-            'category' =>'required',
+            'category' => 'required',
             'cat_id' => 'required|exists:categories,id',
         ]);
         $category = Category::findOrFail($request->cat_id);
@@ -36,7 +36,6 @@ class CategoryController extends Controller
 
 
         return redirect()->back()->with('status', 'Category updated Successfully');
-
     }
 
     public function destroy(string $id)

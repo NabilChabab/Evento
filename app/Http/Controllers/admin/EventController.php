@@ -12,9 +12,9 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::orderBy('id' , 'desc')->get();
-        $categories = Category::orderBy('id' , 'desc')->get();
-        return view('admin.events', compact('events' , 'categories'));
+        $events = Event::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('admin.events', compact('events', 'categories'));
     }
 
 
@@ -33,5 +33,4 @@ class EventController extends Controller
 
         return redirect('evento/events')->with('status', 'Event status updated successfully');
     }
-
 }

@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Reservation;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -20,6 +19,12 @@ class AdminController extends Controller
         $userCount = User::count();
         $reservationCount = Reservation::count();
         $eventCount = Event::count();
-        return view('admin.dashboard', compact('users','userCount', 'reservationCount', 'eventCount'));
+        return view('admin.dashboard', compact('users', 'userCount', 'reservationCount', 'eventCount'));
+    }
+
+    public function booking()
+    {
+        $reservations = Reservation::all();
+        return view('admin.booking', compact('reservations'));
     }
 }

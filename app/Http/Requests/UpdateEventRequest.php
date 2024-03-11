@@ -28,7 +28,7 @@ class UpdateEventRequest extends FormRequest
             'price' => 'nullable|required|numeric',
             'total-seats' => 'nullable|required|integer',
             'date' => 'nullable|required|date',
-            'category' => 'nullable|required|exists:categories,id',
+            'category' => 'nullable|required',
             'autostatus' => 'nullable|in:automatic,manual',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];

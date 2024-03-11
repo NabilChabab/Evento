@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\spectator;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Event;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -20,19 +21,21 @@ class HomeController extends Controller
         $reservations = Event::whereHas('reservations', function ($query) use ($user) {
             $query->where('user_id', $user?->id)->where('status', 'accepted');
         })->with('reservations')->get();
-        return view('home', compact('events', 'reservations'));
+        $categories = Category::all();
+        return view('home', compact('events', 'reservations', 'categories'));
     }
 
 
 
     public function allEvents()
     {
-        $events = Event::where('event_status', 'accepted')->paginate(8);
+        $events = Event::where('event_status', 'accepted')->latest()->paginate(8);
         $user = Auth::user();
         $reservations = Event::whereHas('reservations', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('status', 'accepted');
         })->with('reservations')->get();
-        return view('events', compact('events', 'reservations'));
+        $categories = Category::all();
+        return view('events', compact('events', 'reservations', 'categories'));
     }
 
     public function search(Request $request)
@@ -40,24 +43,18 @@ class HomeController extends Controller
         try {
             $query = $request->input('query');
             $events = Event::where('event_status', 'accepted')
-                           ->where(function ($q) use ($query) {
-                               $q->where('title', 'like', "%$query%")
-                                 ->orWhereHas('category', function ($q) use ($query) {
-                                     $q->where('name', 'like', "%$query%");
-                                 });
-                           })
-                           ->with('media') // Eager load the media relationship
-                           ->paginate(8);
+                ->where(function ($q) use ($query) {
+                    $q->where('title', 'like', "%$query%")
+                        ->orWhereHas('category', function ($q) use ($query) {
+                            $q->where('name', 'like', "%$query%");
+                        });
+                })->with('media')->paginate(8);
 
-            // Transform the events data to include media URL
             $transformedEvents = $events->map(function ($event) {
-                // Get the first media URL associated with the event
                 $mediaUrl = $event->getFirstMediaUrl('media/events');
 
-                // Add the media URL to the event data
                 $event['media_url'] = $mediaUrl;
 
-                // Return the modified event data
                 return $event;
             });
 
@@ -76,15 +73,13 @@ class HomeController extends Controller
         return $pdf->download('ticket.pdf');
     }
 
-
     public function show(string $id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail(base64_decode($id));
         $user = Auth::user();
         $reservations = Event::whereHas('reservations', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('status', 'accepted');
         })->with('reservations')->get();
         return view('details', compact('event', 'reservations'));
     }
-
 }

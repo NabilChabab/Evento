@@ -15,14 +15,13 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request , User $user)
     {
-        // $this->authorize('make_reservations' , $user);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'profile' => 'nullable|image|max:2048', // Max size for the image is 2MB
         ]);
 
-        // Update user's name and email
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;

@@ -12,20 +12,30 @@
                     <ul>
                         @if ($reservations->isNotEmpty())
                             @foreach ($reservations as $reservation)
-                                <li class="d-flex justify-content-between" style="width:300px">
-                                    <a href="{{ route('home.show', $reservation->id) }}"><img
-                                            src="{{ $reservation->getFirstMediaUrl('media/events') }}"
-                                            style="width: 40px;height:40px;" class="rounded-circle me-2">
-                                        {{ $reservation->title }}</a>
-                                    <a href="{{ route('ticket', $reservation->id) }}"><i class="bi bi-arrow-down-circle"
-                                            style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
-                                </li>
+                            <li class="d-flex justify-content-between" style="width:300px">
+                                <a href="{{ route('home.show', base64_encode($reservation->id)) }}"><img
+                                        src="{{ $reservation->getFirstMediaUrl('media/events') }}"
+                                        style="width: 40px;height:40px;" class="rounded-circle me-2">
+                                    {{ $reservation->title }}</a>
+                                <a href="{{ route('ticket', $reservation->id) }}"><i class="bi bi-arrow-down-circle"
+                                        style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
+                            </li>
                             @endforeach
                         @else
                             <li><a>No tickets available!!.</a></li>
                         @endif
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#"><span>Category</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                        <li><a href="#" onclick="filterByCategory(null)">All Categories</a></li>
+                        @foreach ($categories as $category)
+                            <li><a href="#" onclick="filterByCategory({{ $category->id }})">{{ $category->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
+
             @endauth
             <li><a href="about.html">About</a></li>
 
@@ -55,17 +65,15 @@
     <section id="gallery" class="gallery">
         <div class="container-fluid">
             <div class="row gy-4 justify-content-center" id="events-list">
-                <!-- Dynamically populate this div with fetched data -->
             </div>
             <div class="row gy-4 justify-content-center" id="events-listt">
                 @foreach ($events as $event)
                     <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="gallery-item h-100">
+                        <div class="gallery-item h-100" data-category="{{ $event->category_id }}">
                             <img src="{{ $event->getFirstMediaUrl('media/events') }}" class="img-fluid" alt=""
                                 style="width: 500px;height:350px;object-fit:cover;">
                             <div class="gallery-links d-flex align-items-center justify-content-center">
-                                <a href="{{ route('home.show', $event->id) }}" class="details-link"><i
-                                        class="bi bi-eye"></i></a>
+                                <a href="{{ route('home.show',base64_encode( $event->id)) }}" class="details-link"><i class="bi bi-eye"></i></a>
                             </div>
                         </div>
                     </div><!-- End Gallery Item -->
@@ -82,57 +90,14 @@
         </div>
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            var searchInput = document.getElementById('searchInput');
 
-            var eventsList = document.getElementById('events-list');
-            var eventsList1 = document.getElementById('events-listt');
-
-            searchInput.addEventListener('input', async function() {
-                var query = this.value;
-
-                try {
-                    const response = await fetch(`/user/search?query=${query}`);
-
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-
-                    const data = await response.json();
-                    console.log(data);
-
-                    eventsList1.style.display = 'none';
-                    eventsList.innerHTML = '';
-
-
-                    data.forEach(event => {
-                        const eventCard = `
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="gallery-item h-100">
-                            <img src="${event.media_url}" class="img-fluid" alt="" style="width: 500px;height:350px;object-fit:cover;">
-                            <div class="gallery-links d-flex align-items-center justify-content-center">
-                                <a href="../user/home/${event.id}" class="details-link"><i class="bi bi-eye"></i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                `;
-                        eventsList.insertAdjacentHTML('beforeend', eventCard);
-                    });
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    </script>
 @endsection
 
 @section('footer')
     <footer id="footer" class="footer">
         <div class="container">
             <div class="copyright">
-                &copy; Copyright <strong><span>PhotoFolio</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>EVENTO</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
                 <!-- All the links in the footer should remain intact. -->

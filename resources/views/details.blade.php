@@ -10,14 +10,14 @@
                     <ul>
                         @if ($reservations->isNotEmpty())
                             @foreach ($reservations as $reservation)
-                                <li class="d-flex justify-content-between" style="width:300px">
-                                    <a href="{{ route('home.show', $reservation->id) }}"><img
-                                            src="{{ $reservation->getFirstMediaUrl('media/events') }}"
-                                            style="width: 40px;height:40px;" class="rounded-circle me-2">
-                                        {{ $reservation->title }}</a>
-                                    <a href="{{ route('ticket', $reservation->id) }}"><i class="bi bi-arrow-down-circle"
-                                            style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
-                                </li>
+                            <li class="d-flex justify-content-between" style="width:300px">
+                                <a href="{{ route('home.show', base64_encode($reservation->id)) }}"><img
+                                        src="{{ $reservation->getFirstMediaUrl('media/events') }}"
+                                        style="width: 40px;height:40px;" class="rounded-circle me-2">
+                                    {{ $reservation->title }}</a>
+                                <a href="{{ route('ticket', $reservation->id) }}"><i class="bi bi-arrow-down-circle"
+                                        style="font-size: 22px;color:rgb(129, 0, 0)"></i></a>
+                            </li>
                             @endforeach
                         @else
                             <li><a>No tickets available!!.</a></li>
@@ -39,7 +39,7 @@
                 <p>Dynamic online platform dedicated to fostering collaboration and innovation within the artistic
                     community. </p>
                 <a href="contact.html" class="btn-get-started">Available for hire</a>
-                <h2 class="mt-5"><span>Event Details</span></h2>
+                <h2 class="mt-5 mb-5"><span>Event Details</span></h2>
             </div>
         </div>
     </div><!-- End Page Header -->
@@ -49,7 +49,7 @@
         <div class="container">
             <div>
                 <img src="{{ $event->getFirstMediaUrl('media/events') }}" alt=""
-                    style="width:100%;height:700px;object-fit:cover;" class="rounded">
+                    style="width:100%;height:500px;object-fit:cover;" class="rounded">
             </div>
 
             <div class="row justify-content-between gy-4 mt-4">
@@ -98,7 +98,8 @@
                             <li><strong>Category</strong> <span>{{ $event->category->name }}</span></li>
                             <li><strong>Event date</strong> <span>{{ $event->date }}</span></li>
                             <li><strong>Available Seats</strong>
-                                <span>{{ $event->total_seats - $event->reserved_seats }}</span></li>
+                                <span>{{ $event->total_seats - $event->reserved_seats }}</span>
+                            </li>
                             <li><strong>Ticket Price</strong> <span><span
                                         class="text-warning">$</span>{{ $event->price }}.00</span></li>
                             <li><strong>Event Location</strong> <a href="#">{{ $event->location }}</a></li>
@@ -109,6 +110,11 @@
                                     <a class="text-danger">You already have a pending reservation for this event.</a>
                                 @elseif(auth()->user()->status === 'banned')
                                     <a class="text-danger">The Evento team has banned you from any action in the website</a>
+                                @elseif($event->reserved_seats === $event->total_seats)
+                                    <button class="btn-visit align-self-start bg-dark" style="border:none;" type="button"
+                                        disabled>
+                                        Sold Out!!!
+                                    </button>
                                 @elseif(!$event->isReservedByUser(auth()->user()))
                                     <form action="/session" method="POST">
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">

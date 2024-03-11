@@ -13,6 +13,7 @@ use App\Http\Controllers\spectator\HomeController;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 
 /*
@@ -37,12 +38,20 @@ Route::get('authentication', function () {
 Route::get('organizer_auth', [RegisterController::class, 'organizer_auth'])->name('organizer_auth');
 Route::post('organizer', [RegisterController::class, 'organizer'])->name('organizer.post');
 Route::post('register', [RegisterController::class, 'register'])->name('register.post');
+
+
+Route::get('auth/{provider}', [LoginController::class , 'redirectToProvider']);
+Route::get('auth/{provider}/callback', [LoginController::class , 'handleProviderCallback']);
+
+
+
 Route::get('profile', [ProfileController::class, 'profile'])->name('admin.profile');
 Route::put('user-update', [ProfileController::class, 'updateProfile'])->name('user.update');
 
 
 //Admin
 Route::prefix('evento')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('booking' , [AdminController::class , 'booking'])->name('booking.admin');
     Route::resource('dashboard', AdminController::class);
     Route::resource('categories', CategoryController::class);
     Route::put('/users/{id}/update-status', [UserController::class, 'updateStatus'])->name('users.update-status');
@@ -67,9 +76,9 @@ Route::prefix('user')->middleware(['auth', 'role:spectator'])->group(function ()
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('events', [HomeController::class , 'allEvents']);
     Route::get('ticket/{id}' , [HomeController::class , 'ticket'])->name('ticket');
-    Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
-    Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
 });
+Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
 
 
 

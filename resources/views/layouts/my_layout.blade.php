@@ -8,6 +8,8 @@
     <title>Document</title>
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
     <link href="#" rel="icon">
     <link href="#" rel="apple-touch-icon">
@@ -202,11 +204,15 @@
                             @if (Auth::user()->hasMedia('media/users'))
                                 <img src="{{ Auth::user()->getFirstMediaUrl('media/users') }}" alt=""
                                     srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
+                            @elseif (Auth::user()->provider == 'google')
+                                <img src="{{ Auth::user()->avatar }}" alt=""
+                                    srcset="" style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
                             @else
                                 <img src="{{ asset('images/avatar.jfif') }}" alt="" srcset=""
                                     style="width: 40px;height:40px;border-radius:50%;margin-right:5px;">
                             @endif
                         </a>
+
                         <a id="navbarDropdown" class="nav-link" href="#" role="button">
                             {{ Auth::user()->name }}
                         </a>
@@ -266,6 +272,8 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('js/form.js') }}"></script>
+    <script src="{{ asset('js/login.js') }}"></script>
+    <script src="{{ asset('js/search.js') }}"></script>
 
 
     @if (session('status'))
@@ -286,58 +294,7 @@
             }, {{ session('delay', 0) }});
         </script>
     @endif
-    <script>
-        document.getElementById('form').addEventListener('submit', function(event) {
-            var fullname = document.getElementById('fullname');
-            var email = document.getElementById('email');
-            var password = document.getElementById('password');
-            var confirm_password = document.getElementById('confirm_password');
 
-            var fullname_error = document.getElementById('fullname-error');
-            var email_error = document.getElementById('email-error');
-            var password_error = document.getElementById('password-error');
-            var confirm_password_error = document.getElementById('confirm_password-error');
-
-            var isValid = true;
-
-            // Reset error messages
-            fullname_error.textContent = '';
-            email_error.textContent = '';
-            password_error.textContent = '';
-            confirm_password_error.textContent = '';
-
-            // Full Name validation
-            if (fullname.value.trim() === '') {
-                fullname_error.textContent = 'Full Name is required';
-                isValid = false;
-            }
-
-            // Email validation
-            if (email.value.trim() === '') {
-                email_error.textContent = 'Email is required';
-                isValid = false;
-            }
-
-            // Password validation
-            if (password.value.trim() === '') {
-                password_error.textContent = 'Password is required';
-                isValid = false;
-            }
-
-            // Confirm Password validation
-            if (confirm_password.value.trim() === '') {
-                confirm_password_error.textContent = 'Confirm Password is required';
-                isValid = false;
-            } else if (confirm_password.value.trim() !== password.value.trim()) {
-                confirm_password_error.textContent = 'Passwords do not match';
-                isValid = false;
-            }
-
-            if (!isValid) {
-                event.preventDefault();
-            }
-        });
-    </script>
 
 </body>
 

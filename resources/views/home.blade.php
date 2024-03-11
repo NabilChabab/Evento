@@ -13,7 +13,7 @@
                         @if ($reservations->isNotEmpty())
                             @foreach ($reservations as $reservation)
                                 <li class="d-flex justify-content-between" style="width:300px">
-                                    <a href="{{ route('home.show', $reservation->id) }}"><img
+                                    <a href="{{ route('home.show', base64_encode($reservation->id)) }}"><img
                                             src="{{ $reservation->getFirstMediaUrl('media/events') }}"
                                             style="width: 40px;height:40px;" class="rounded-circle me-2">
                                         {{ $reservation->title }}</a>
@@ -150,7 +150,6 @@
         <div class="row justify-content-center">
             <div class="col-lg-6 text-center">
                 <h2 class="mt-5"><span>Recent Events</span></h2>
-                <a href="contact.html" class="btn-get-started">View All</a>
             </div>
         </div>
     </div>
@@ -167,7 +166,7 @@
                             <img src="{{ $event->getFirstMediaUrl('media/events') }}" class="img-fluid" alt=""
                                 style="width: 500px;height:350px;object-fit:cover;">
                             <div class="gallery-links d-flex align-items-center justify-content-center">
-                                <a href="{{ route('home.show', $event->id) }}" class="details-link"><i
+                                <a href="{{ route('home.show', base64_encode($event->id)) }}" class="details-link"><i
                                         class="bi bi-eye"></i></a>
                             </div>
                         </div>

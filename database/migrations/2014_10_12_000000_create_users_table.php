@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('establishment_id')->nullable()->constrained('establishments')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('status' , ['pending', 'accepted', 'banned'])->default('accepted');
+            $table->integer('oauth_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

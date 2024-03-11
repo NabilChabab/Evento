@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +16,7 @@ class EventsController extends Controller
 
     public function index()
     {
+
         $userId = Auth::id();
         $events = Event::where('createdBy', $userId)->get();
         return view('organizer.events', compact('events'));
@@ -34,6 +36,7 @@ class EventsController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
+
         $event = new Event([
             'title' => $request->title,
             'location' => $request->location,
@@ -57,6 +60,8 @@ class EventsController extends Controller
     }
     public function update(UpdateEventRequest $request, string $id)
     {
+
+
 
         $event = Event::findOrFail($id);
         $event->title = $request->title;

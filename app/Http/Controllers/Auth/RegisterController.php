@@ -78,7 +78,8 @@ class RegisterController extends Controller
     }
 
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -93,18 +94,18 @@ class RegisterController extends Controller
         $user->roles()->attach(3);
 
 
-        return redirect('login')->with('status' , 'Your account has been created successfully!');
-
-
+        return redirect('login')->with('status', 'Your account has been created successfully!');
     }
 
 
 
-    public function organizer_auth(){
+    public function organizer_auth()
+    {
         return view('auth.organizer_register');
     }
 
-    public function organizer(Request $request){
+    public function organizer(Request $request)
+    {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -129,9 +130,6 @@ class RegisterController extends Controller
         $user->roles()->attach(3);
         Mail::to($user->email)->send(new OrganizerRegistered($user));
 
-        return redirect('login')->with('status' , 'Your account has been created successfully! An email has been sent to you with some details.');
-
-
+        return redirect('login')->with('status', 'Your account has been created successfully! An email has been sent to you with some details.');
     }
-
 }

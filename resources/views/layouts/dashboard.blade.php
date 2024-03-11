@@ -10,6 +10,8 @@
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- Nucleo Icons -->
     <link href="{{ asset('css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -41,8 +43,8 @@
                 <li class="nav-item">
                     <a class="nav-link @yield('dashboard-active')" href="{{route('dashboard.index')}}">
                         <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-home text-primary text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
@@ -50,8 +52,8 @@
                 <li class="nav-item">
                     <a class="nav-link @yield('Users-active')" href="{{route('users.index')}}">
                         <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-user text-warning text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Evento Users</span>
                     </a>
@@ -60,17 +62,17 @@
                 <li class="nav-item">
                     <a class="nav-link @yield('Events-active')" href="{{route('events.index')}}">
                         <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bx bxs-right-arrow text-success text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Events</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @yield('Booking-active')" href="">
+                    <a class="nav-link @yield('Booking-active')" href="{{route('booking.admin')}}">
                         <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-app text-info text-sm opacity-10"></i>
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bx bxs-check-circle text-info text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Booking</span>
                     </a>
@@ -82,8 +84,8 @@
                 <li class="nav-item">
                     <a class="nav-link @yield('Profile-active')" href="{{route('admin.profile')}}">
                         <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bx bxs-user-circle text-dark text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Profile</span>
                     </a>

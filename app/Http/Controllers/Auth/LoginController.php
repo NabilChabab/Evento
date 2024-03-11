@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -56,6 +61,44 @@ class LoginController extends Controller
             }
         } else {
             return redirect($this->redirectTo)->with('status', 'Your account does not have role assigned. Please contact administrator.');
+        }
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        try {
+            $socialUser = Socialite::driver($provider)->user();
+
+            $userExisted = User::where('oauth_id', $socialUser->id)->first();
+
+            if ($userExisted) {
+                Auth::login($userExisted);
+                return redirect('user/home');
+            } else {
+                $newUser = User::create([
+                    'name' => $socialUser->name,
+                    'email' => $socialUser->email,
+                    'oauth_id' => $socialUser->id,
+                    'password' => Hash::make($socialUser->id),
+                ]);
+
+                $profilePictureUrl = $socialUser->getAvatar();
+                $newUser->avatar = $profilePictureUrl;
+                $newUser->save();
+
+                $newUser->roles()->attach(3);
+
+                Auth::login($newUser);
+
+                return redirect('user/home');
+            }
+        } catch (Exception $e) {
+            return $e;
         }
     }
 }

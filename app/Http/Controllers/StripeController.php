@@ -19,7 +19,6 @@ class StripeController extends Controller
     {
         \Stripe\Stripe::setApiKey(config('stripe.sk'));
 
-        // Get the total price for the event
         $event = Event::findOrFail($request->event_id);
         $totalPrice = $event->price;
 
